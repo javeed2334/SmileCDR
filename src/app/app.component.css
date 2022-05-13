@@ -1,0 +1,16 @@
+p {
+  font-family: Lato;
+}
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+.container {
+  padding-left:50px;
+}
+
+.user-input{ 
+  margin-bottom: 10px;
+  display: block;
+}

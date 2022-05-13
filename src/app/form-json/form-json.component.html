@@ -1,0 +1,61 @@
+<!-- <button (click)="createForm()">Create New</button> -->
+<hr />
+<div class="form-group" *ngIf="form != null">
+  <form novalidate [formGroup]="form.formGroup">
+    <div *ngFor="let prop of form.metaData">
+      <div class="container">
+        <label class="title-lbl" [attr.for]="prop">{{
+          prop.label
+        }}</label>
+        <ng-container [ngSwitch]="prop.type">
+          <ng-container *ngSwitchCase="'radio'">
+            <label *ngFor="let option of prop.options">
+              <input
+                type="radio"
+                [name]="prop.key"
+                [formControlName]="prop.key"
+                [value]="option.value"
+                class="form-control"
+              />{{ option.label }}
+            </label>
+          </ng-container>
+          <select
+            [formControlName]="prop.key"
+            *ngSwitchCase="'select'"
+            class="form-control"
+          >
+            <option *ngFor="let option of prop.options" [value]="option.value">
+              {{ option.label }}
+            </option>
+          </select>
+          <input
+            *ngSwitchCase="'text'"
+            class="form-control"
+            [formControlName]="prop.key"
+            [id]="prop.key"
+            [type]="prop.type"
+          />
+        </ng-container>
+      </div>
+      <div class="error" *ngIf="
+          (form.formGroup.get(prop.key).dirty ||
+            form.formGroup.get(prop.key).touched) &&
+          form.formGroup.get(prop.key).invalid
+        ">
+        <p>
+          {{ form.formGroup.get(prop.key).errors | json }}
+        </p>
+      </div>
+    </div>
+    <div *ngIf="debug">
+      <h2>Form Meta Data</h2>
+      <pre>{{ form.metaData | json }}</pre>
+      <h2>Form Transactional Data</h2>
+      <pre>{{ form.formGroup.value | json }}</pre>
+    </div>
+    <br />
+    <button type="submit">Update</button>
+  </form>
+  <hr />
+</div>
+<div>{{ form.formGroup.value | json }}</div>

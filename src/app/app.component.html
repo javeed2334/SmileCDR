@@ -1,0 +1,51 @@
+<p>Start editing to see some magic happen :)</p>
+<div class="container">
+  <ng-container *ngIf="patientList.length">
+    <ng-container>
+      <span
+        [textContent]="'Search with first and last name of patinetns'"
+      ></span>
+      <div style="padding: 10px;">
+        <input
+          type="text"
+          placeholder="firstname"
+          [(ngModel)]="fName"
+          class="user-input"
+        />
+        <input
+          class="user-input"
+          type="text"
+          placeholder="lastname"
+          [(ngModel)]="lName"
+        />
+      </div>
+    </ng-container>
+    <table>
+      <tr>
+        <th>Firstname</th>
+        <th>Lastname</th>
+        <th>DOB</th>
+        <th>Gender</th>
+      </tr>
+      <tr
+        *ngFor="
+          let patient of patientList
+            | firstNameFilter: fName
+            | lastNameFilter: lName;
+          let i = index
+        "
+      >
+        <td>{{ patient.resource?.name?.[0].family || 'N/A'}}</td>
+        <td>{{ patient.resource?.name?.[0].given?.[0] || 'N/A'}}</td>
+        <td>{{ patient.resource.birthDate || 'N/A' }}</td>
+        <td>{{ patient.resource?.gender || 'N/A' }}</td>
+      </tr>
+      <tfoot>
+        <tr>
+          <td colspan="4">Time taken to get details: {{ elapsedTime }}ms</td>
+        </tr>
+      </tfoot>
+    </table>
+  </ng-container>
+</div>
+<app-form-json [jsonData]="json"></app-form-json>
